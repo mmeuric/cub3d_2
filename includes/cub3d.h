@@ -6,7 +6,7 @@
 /*   By: mmeuric <mmeuric@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 14:11:33 by abahmani          #+#    #+#             */
-/*   Updated: 2025/05/13 02:33:09 by mmeuric          ###   ########.fr       */
+/*   Updated: 2025/05/13 03:41:22 by mmeuric          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,6 +268,11 @@ void	init_engine2(t_engine *eng);
 void	malloc_texture(t_engine *eng);
 void	start_game_loop(t_engine *eng);
 int		close_engine(t_engine *engine);
+void	calcul_text(t_engine *eng);
+void	calcul_wall_color_south_north(t_engine *eng, int *color);
+void	calcul_wall_color_east_west(t_engine *eng, int *color);
+void	right_pers(t_engine *eng);
+void	left_pers(t_engine *eng);
 
 /*------------------------------------IHM-------------------------------------*/
 

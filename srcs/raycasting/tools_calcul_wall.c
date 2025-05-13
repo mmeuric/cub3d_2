@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tools_wall.c                                       :+:      :+:    :+:   */
+/*   tools_calcul_wall.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmeuric <mmeuric@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 01:42:42 by mmeuric           #+#    #+#             */
-/*   Updated: 2025/05/13 02:01:49 by mmeuric          ###   ########.fr       */
+/*   Updated: 2025/05/13 03:22:45 by mmeuric          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+// Calculates the perpendicular distance from the player to the wall and exact wall hit position.
 void	calcul_dist_wall(t_engine *eng)
 {
 	if (eng->cal->side == 0)
@@ -39,6 +40,7 @@ void	calcul_dist_wall(t_engine *eng)
 	eng->cal->wall_x -= floor(eng->cal->wall_x);
 }
 
+// Performs DDA algorithm to detect a wall hit and sets raycasting side; calls distance calculation.
 void	wall_detect(t_engine *eng)
 {
 	while (eng->cal->hit == 0)
@@ -61,6 +63,7 @@ void	wall_detect(t_engine *eng)
 	calcul_dist_wall(eng);
 }
 
+// Chooses the correct wall texture color for east/west facing walls.
 void	calcul_wall_color_east_west(t_engine *eng, int *color)
 {
 	if (eng->cal->side == 1)
@@ -79,6 +82,7 @@ void	calcul_wall_color_east_west(t_engine *eng, int *color)
 	}
 }
 
+// Chooses the correct wall texture color for north/south facing walls and applies shading.
 void	calcul_wall_color_south_north(t_engine *eng, int *color)
 {
 	if (eng->cal->map_x + (1 - eng->cal->step_x)
@@ -93,24 +97,4 @@ void	calcul_wall_color_south_north(t_engine *eng, int *color)
 		[TEX_HEIGHT * eng->cal->tex_y + eng->cal->tex_x];
 	}
 	*color = (*color >> 1) & 8355711;
-}
-
-void	wall_draw(t_engine *eng, int x, int y, int z)
-{
-	int	i;
-	int	color;
-
-	i = y;
-	while (i < z)
-	{
-		eng->cal->tex_y = (int)eng->cal->tex_pos & (TEX_HEIGHT - 1);
-		eng->cal->tex_pos += eng->cal->step;
-		color = eng->mlx_data->texture[eng->cal->tex_num]
-		[TEX_HEIGHT * eng->cal->tex_y + eng->cal->tex_x];
-		calcul_wall_color_south_north(eng, &color);
-		calcul_wall_color_east_west(eng, &color);
-		eng->mlx_data->buf[i][x] = color;
-		eng->mlx_data->re_buf = 1;
-		i++;
-	}
 }

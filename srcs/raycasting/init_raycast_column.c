@@ -6,12 +6,14 @@
 /*   By: mmeuric <mmeuric@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 01:35:55 by mmeuric           #+#    #+#             */
-/*   Updated: 2025/05/13 02:33:02 by mmeuric          ###   ########.fr       */
+/*   Updated: 2025/05/13 02:58:17 by mmeuric          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+// Initializes raycasting parameters for a screen column,
+// setting ray direction and distance calculations.
 void	init_raycast_column(t_engine *eng, int x)
 {
 	(void)x;

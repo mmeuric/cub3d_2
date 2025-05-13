@@ -6,12 +6,13 @@
 /*   By: mmeuric <mmeuric@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 01:37:53 by mmeuric           #+#    #+#             */
-/*   Updated: 2025/05/13 01:48:14 by mmeuric          ###   ########.fr       */
+/*   Updated: 2025/05/13 03:00:42 by mmeuric          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+// Initializes horizontal step direction and initial side distance based on ray X direction.
 void	init_side_dist_x(t_engine *eng)
 {
 	if (eng->cal->ray_dir_x < 0)
@@ -28,6 +29,7 @@ void	init_side_dist_x(t_engine *eng)
 	}
 }
 
+// Initializes vertical step direction and initial side distance based on ray Y direction.
 void	init_side_dist_y(t_engine *eng)
 {
 	if (eng->cal->ray_dir_y < 0)
@@ -44,6 +46,7 @@ void	init_side_dist_y(t_engine *eng)
 	}
 }
 
+// Combines horizontal and vertical side distance initialization and starts wall detection.
 void	init_side_dist(t_engine *eng)
 {
 	init_side_dist_x(eng);

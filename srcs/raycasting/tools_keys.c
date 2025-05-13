@@ -6,12 +6,13 @@
 /*   By: mmeuric <mmeuric@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 02:05:42 by mmeuric           #+#    #+#             */
-/*   Updated: 2025/05/13 02:05:45 by mmeuric          ###   ########.fr       */
+/*   Updated: 2025/05/13 03:11:42 by mmeuric          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+// Handles key press events and sets movement flags; exits on ESC key.
 int	key_press(int key, t_engine *engine)
 {
 	if (key == 119)
@@ -35,6 +36,7 @@ int	key_press(int key, t_engine *engine)
 	return (0);
 }
 
+// Handles key release events and resets the corresponding movement flags.
 int	key_release(int key, t_engine *eng)
 {
 	if (key == 119)

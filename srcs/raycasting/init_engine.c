@@ -6,15 +6,13 @@
 /*   By: mmeuric <mmeuric@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 02:21:38 by mmeuric           #+#    #+#             */
-/*   Updated: 2025/05/13 02:24:26 by mmeuric          ###   ########.fr       */
+/*   Updated: 2025/05/13 02:56:12 by mmeuric          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-/**
- * @brief Initializes the engine components: MLX, player, map, image buffer, flags.
- */
+// Initializes the engine components: MLX, player, map, image buffer, flags.
 void	init_engine2(t_engine *eng)
 {
 	eng->mlx_data->mlx = mlx_init();
@@ -45,9 +43,7 @@ void	init_engine2(t_engine *eng)
 	eng->mlx_data->right = 0;
 }
 
-/**
- * @brief Sets up event hooks and starts the main rendering loop.
- */
+// Sets up event hooks and starts the main rendering loop.
 void	start_game_loop(t_engine *eng)
 {
 	// Keyboard and window event hooks

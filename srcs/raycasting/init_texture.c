@@ -6,12 +6,13 @@
 /*   By: mmeuric <mmeuric@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 01:38:49 by mmeuric           #+#    #+#             */
-/*   Updated: 2025/05/13 01:49:17 by mmeuric          ###   ########.fr       */
+/*   Updated: 2025/05/13 03:02:28 by mmeuric          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+// Allocates memory for textures and initializes them to zero.
 void	malloc_texture(t_engine *eng)
 {
 	int	i;

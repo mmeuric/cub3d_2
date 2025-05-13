@@ -6,12 +6,13 @@
 /*   By: mmeuric <mmeuric@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 01:44:04 by mmeuric           #+#    #+#             */
-/*   Updated: 2025/05/13 02:04:01 by mmeuric          ###   ########.fr       */
+/*   Updated: 2025/05/13 03:16:43 by mmeuric          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+// Loads an image from file and copies its pixel data into the provided texture array.
 void	load_image(t_engine *eng, int *texture, char *path, t_data *data)
 {
 	int	y;
@@ -36,6 +37,7 @@ void	load_image(t_engine *eng, int *texture, char *path, t_data *data)
 	mlx_destroy_image(eng->mlx_data->mlx, data->img);
 }
 
+// Loads all four wall textures (north, south, east, west) using load_image().
 void	load_texture(t_engine *eng)
 {
 	t_data	img;

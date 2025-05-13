@@ -25,10 +25,10 @@ SRC			= 	cub3d.c \
 				tab_tools.c digit_tools.c arg_error.c error.c \
 				input_file_error.c map_element.c init_perso.c file_content.c \
 				check_map_error.c check_data_error.c texture_file_error.c \
-				handler_exec.c handler_get_move.c handler_move.c \
+				handler_exec_text.c handler_get_move.c tools_move.c \
 				handler_play.c init_side_dist.c init_texture.c init_raycast_column.c \
-				tools_calcul.c tools_draw.c tools_keys.c tools_texture_load.c \
-				tools_wall.c init_engine.c 
+				tools_calcul_text.c tools_draw.c tools_keys.c tools_texture_load.c \
+				tools_calcul_wall.c init_engine.c handler_calcul.c tools_move2.c 
 
 
 OBJ			=	$(addprefix $(OBJ_DIR)/, $(SRC:%.c=%.o)) \

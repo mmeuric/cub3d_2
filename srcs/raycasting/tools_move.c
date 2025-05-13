@@ -6,12 +6,13 @@
 /*   By: mmeuric <mmeuric@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 01:41:44 by mmeuric           #+#    #+#             */
-/*   Updated: 2025/05/13 01:57:25 by mmeuric          ###   ########.fr       */
+/*   Updated: 2025/05/13 02:50:52 by mmeuric          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+// Moves the player forward based on the current direction, if no wall is in the way.
 void	move_up(t_engine *eng)
 {
 	if (eng->mlx_data->up)
@@ -30,6 +31,7 @@ void	move_up(t_engine *eng)
 	}
 }
 
+// Moves the player backward based on the current direction, if no wall is in the way.
 void	move_down(t_engine *eng)
 {
 	if (eng->mlx_data->down)
@@ -48,6 +50,7 @@ void	move_down(t_engine *eng)
 	}
 }
 
+// Rotates the player's view to the left by updating direction and camera plane vectors.
 void	move_left(t_engine *eng)
 {
 	double	old_dir_x;
@@ -74,6 +77,7 @@ void	move_left(t_engine *eng)
 	}
 }
 
+// Rotates the player's view to the right by updating direction and camera plane vectors.
 void	move_right(t_engine *eng)
 {
 	double	old_dir_x;
