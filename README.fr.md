@@ -19,10 +19,6 @@ Le projet se décompose en deux segments fondamentaux, chacun abordant des aspec
 
 Ces deux composantes, bien que distinctes dans leurs fonctionnalités, doivent travailler de concert pour produire un environnement de jeu crédible. Elles exigent non seulement une compréhension approfondie des concepts algorithmiques et géométriques mais aussi une capacité à les intégrer harmonieusement afin de créer une interface visuelle convaincante et une interaction intuitive pour les joueurs.
 
-## 📷 Aperçu
-
-<img src="https://github.com/anbahmani/cub3d/blob/main/screenshot/Screencast.gif"/>
-
 ## 🧑‍💻 Lancer le jeu
 
 ```

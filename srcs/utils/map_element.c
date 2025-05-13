@@ -12,13 +12,6 @@
 
 #include "cub3d.h"
 
-int	is_orientation_char(char c)
-{
-	if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
-		return (1);
-	return (0);
-}
-
 static unsigned int	get_max_width(const char **map)
 {
 	unsigned int	size;

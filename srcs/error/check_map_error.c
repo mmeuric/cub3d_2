@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-int	check_number_player(char **map)
+static int	check_number_player(char **map) //?
 {
 	int	nb_p;
 	int	i;
@@ -33,26 +33,30 @@ int	check_number_player(char **map)
 	}
 	return (nb_p == 1);
 }
-
-static int	check_char_around(const char **map, int i, int j)
+static bool	check_char_around(char **map, int i, int j)	//?
 {
-	if (i == 0 || i == count_str((char **)map) - 1 || j == 0
-		|| j == (int)ft_strlen(map[0]) - 1)
-		return (0);
-	if (map[i - 1][j] == '-' || map[i + 1][j] == '-' || map[i][j - 1] == '-'
-		|| map[i][j + 1] == '-')
-		return (0);
-	return (1);
+	if (i == 0 || i == count_str(map) - 1 || j == 0 || j == (int)ft_strlen(map[0]) - 1)
+		return (false);
+	if (map[i - 1][j] == '-' || map[i + 1][j] == '-' || map[i][j - 1] == '-' || map[i][j + 1] == '-')
+		return (false);
+	return (true);
 }
 
-static int	is_map_char(char c)
+static bool	is_map_char(char c)
 {
-	if (c == '0' || c == '1' || c == '-' || is_orientation_char(c))
-		return (1);
-	return (0);
+	if (c == '0' || c == '1' || c == '-' || is_orientation_char(c))	//?
+		return (true);
+	return (false);
+}
+//not static because is also called in init_perso.c
+bool	is_orientation_char(char c)	//?
+{
+	if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
+		return (true);
+	return (false);
 }
 
-int	check_map(const char **map)
+int	check_map(char **map)
 {
 	int	i;
 	int	j;

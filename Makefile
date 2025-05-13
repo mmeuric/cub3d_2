@@ -19,16 +19,25 @@ vpath %.c $(foreach dir, $(SRC_DIR), $(dir):)
 
 # library -----------------------------------------------------------
 
-SRC			= 	cub3d.c \
+SRC			= 	main.c \
 				get_next_line.c get_next_line_utils.c \
-				get_file_data.c get_map.c garbage_collector.c str_tools.c color.c \
-				tab_tools.c digit_tools.c arg_error.c error.c \
-				input_file_error.c map_element.c init_perso.c file_content.c \
-				check_map_error.c check_data_error.c texture_file_error.c \
+\
+				handler_colors_and_textures.c get_map.c garbage_collector.c  \
+\
+\
+				handler_pre_parser_file.c handler_pre_parsing.c tool_window.c \
+				handler_init_parse_colors.c handler_pre_clean_file.c\
+\
+\
+				init_engine.c handler_input_file.c \
+				tools_debug.c tools_tab.c tools_file.c tools_str.c  tools_str_2.c error.c \
+				map_element.c init_perso.c \
+				check_map_error.c \
+				handler_parse_textures.c \
 				handler_exec_text.c handler_get_move.c tools_move.c \
 				handler_play.c init_side_dist.c init_texture.c init_raycast_column.c \
 				tools_calcul_text.c tools_draw.c tools_keys.c tools_texture_load.c \
-				tools_calcul_wall.c init_engine.c handler_calcul.c tools_move2.c 
+				tools_calcul_wall.c init_engine2.c handler_calcul.c tools_move2.c \
 
 
 OBJ			=	$(addprefix $(OBJ_DIR)/, $(SRC:%.c=%.o)) \

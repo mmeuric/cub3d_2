@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools_texture_load.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmeuric <mmeuric@student.42.fr>            +#+  +:+       +#+        */
+/*   By: urlooved && mat <urlooved_&&_mat@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 01:44:04 by mmeuric           #+#    #+#             */
-/*   Updated: 2025/05/13 03:16:43 by mmeuric          ###   ########.fr       */
+/*   Updated: 2025/05/13 15:23:46 by urlooved &&      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	load_texture(t_engine *eng)
 {
 	t_data	img;
 
-	load_image(eng, eng->mlx_data->texture[0], eng->map_data->north_text, &img);
-	load_image(eng, eng->mlx_data->texture[1], eng->map_data->south_text, &img);
-	load_image(eng, eng->mlx_data->texture[2], eng->map_data->east_text, &img);
-	load_image(eng, eng->mlx_data->texture[3], eng->map_data->west_text, &img);
+	load_image(eng, eng->mlx_data->texture[0], eng->map_data->n_texture, &img);
+	load_image(eng, eng->mlx_data->texture[1], eng->map_data->s_texture, &img);
+	load_image(eng, eng->mlx_data->texture[2], eng->map_data->e_texture, &img);
+	load_image(eng, eng->mlx_data->texture[3], eng->map_data->w_texture, &img);
 }

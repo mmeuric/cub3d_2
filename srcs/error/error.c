@@ -31,11 +31,3 @@ void	quit_error_no_free(char *msg)
 	print_error(msg);
 	exit(1);
 }
-
-int	check_error(int ac, char **av, t_list *garb_c)
-{
-	if (!check_arg_number_error(ac, garb_c)
-		|| !check_input_file_error(av[1], garb_c))
-		return (1);
-	return (0);
-}

@@ -29,13 +29,13 @@ int	is_map_line(char *line)
 	}
 	return (no_map_comp);
 }
-
+// TODO maplen
 int	count_line_map(int start, t_engine *eng)
 {
 	int	count;
 
 	count = 0;
-	while (eng->file_content[start++])
+	while (eng->file_raw_data[start++])
 		count++;
 	return (count);
 }
@@ -48,24 +48,24 @@ char	**get_map(int start, t_engine *eng)
 	map = ft_malloc(sizeof(char *) * (count_line_map(start, eng) + 1),
 			eng->garbage_coll);
 	i = 0;
-	while (eng->file_content[start])
+	while (eng->file_raw_data[start])
 	{
-		map[i] = eng->file_content[start];
+		map[i] = eng->file_raw_data[start];
 		start++;
 		i++;
 	}
 	map[i] = NULL;
 	return (map);
 }
-
+// TODO init_map.
 void	find_map(t_engine *eng)
 {
 	int		i;
 
 	i = 0;
-	while (eng->file_content[i])
+	while (eng->file_raw_data[i])
 	{
-		if (is_map_line(eng->file_content[i]))
+		if (is_map_line(eng->file_raw_data[i]))
 			break ;
 		i++;
 	}

@@ -1,0 +1,15 @@
+To apply dos2unix to a single file
+> dos2unix ./map/map.cub
+
+To apply dos2unix to all the files in current folder (current pwd)
+> find . -type f -exec dos2unix {} +
+
+cd /host-root/host_mnt/Users/heaven/42_proyects/cub3D_perso_m_f
+
+rm cub3D && make re
+
+LC_ALL=C ./cub3D ./map/map.cub
+LC_ALL=C ./cub3D ./maps/good/xs.cub
+LC_ALL=C valgrind ./cub3D ./maps/good/xs.cub
+LC_ALL=C valgrind ./cub3D ./maps/good/whitespaces_7_W_before_colors.cub
+LC_ALL=C valgrind ./cub3D ./maps/good/whitespaces_8_before_after_c_t.cub
