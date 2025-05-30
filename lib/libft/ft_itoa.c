@@ -3,55 +3,104 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abahmani <abahmani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmeuric <mmeuric@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/16 14:02:22 by abahmani          #+#    #+#             */
-/*   Updated: 2021/06/12 18:07:49 by abahmani         ###   ########.fr       */
+/*   Created: 2024/11/14 14:25:54 by mmeuric           #+#    #+#             */
+/*   Updated: 2024/11/14 16:24:25 by mmeuric          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	size_t	digit_count(int n)
+static int	count_size(int n)
 {
-	size_t	count;
-	int		nb;
+	int	count;
 
 	count = 0;
-	nb = n;
-	if (n == 0)
-		return (1);
-	while (nb)
+	if (n <= 0)
+		count++;
+	while (n != 0)
 	{
-		nb /= 10;
+		n /= 10;
 		count++;
 	}
-	if (n < 0)
-		count++;
 	return (count);
 }
 
-char	*ft_itoa(int n)
+static char	*allocate_string(int count)
 {
 	char	*str;
-	size_t	i;
+	int		i;
 
-	i = digit_count(n);
-	str = malloc(sizeof(char) * (i + 1));
+	str = (char *)malloc(count + 1);
 	if (!str)
 		return (NULL);
-	if (n < 0)
-		str[0] = '-';
-	str[i--] = '\0';
-	if (n == 0)
-		str[0] = '0';
-	while (n != 0)
-	{
-		if (n < 0)
-			str[i--] = (n % 10) * (-1) + '0';
-		else
-			str[i--] = (n % 10) + '0';
-		n /= 10;
-	}
+	i = 0;
+	while (i <= count)
+		str[i++] = '\0';
 	return (str);
 }
+
+char	*ft_itoa(int num)
+{
+	char		*dst;
+	int			count;
+	int			i;
+	long int	n;
+
+	n = num;
+	count = count_size(n);
+	dst = allocate_string(count);
+	if (!dst)
+		return (NULL);
+	i = 0;
+	if (n < 0)
+	{
+		n *= -1;
+		dst[0] = '-';
+		i++;
+	}
+	while (count > i)
+	{
+		dst[--count] = (n % 10) + '0';
+		n /= 10;
+	}
+	return (dst);
+}
+
+/*
+int	main(void)
+{
+	int		num;
+	char	*str;
+
+	num = 12345;
+	str = ft_itoa(num);
+	if (str)
+	{
+		printf("Num: %d -> String: %s\n", num, str);
+		free(str);
+	}
+	else
+		printf("Erreur d'allocation mémoire\n");
+	num = -12345;
+	str = ft_itoa(num);
+	if (str)
+	{
+		printf("Num: %d -> String: %s\n", num, str);
+		free(str);
+	}
+	else
+		printf("Erreur d'allocation mémoire\n");
+	num = 0;
+	str = ft_itoa(num);
+	if (str)
+	{
+		printf("Num: %d -> String: %s\n", num, str);
+		free(str);
+	}
+	else
+		printf("Erreur d'allocation mémoire\n");
+	return (0);
+}
+*/

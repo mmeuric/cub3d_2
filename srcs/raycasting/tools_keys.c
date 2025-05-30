@@ -3,53 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   tools_keys.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmeuric <mmeuric@student.42.fr>            +#+  +:+       +#+        */
+/*   By: urlooved && mat <urlooved_&&_mat@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/13 02:05:42 by mmeuric           #+#    #+#             */
-/*   Updated: 2025/05/13 03:11:42 by mmeuric          ###   ########.fr       */
+/*   Created: 2025/05/20 13:18:11 by urlooved &&       #+#    #+#             */
+/*   Updated: 2025/05/20 13:18:13 by urlooved &&      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 // Handles key press events and sets movement flags; exits on ESC key.
-int	key_press(int key, t_engine *engine)
+int	key_press(int key, t_game *game)
 {
-	if (key == 119)
-		engine->mlx_data->up = 1;
-	if (key == 115)
-		engine->mlx_data->down = 1;
-	if (key == 100)
-		engine->mlx_data->left_pers = 1;
-	if (key == 97)
-		engine->mlx_data->right_pers = 1;
 	if (key == 65361)
-		engine->mlx_data->right = 1;
+		game->mlx_data->k_right = 1;
 	if (key == 65363)
-		engine->mlx_data->left = 1;
+		game->mlx_data->k_left = 1;
+	if (key == 119)
+		game->mlx_data->k_up = 1;
+	if (key == 115)
+		game->mlx_data->k_down = 1;
+	if (key == 100)
+		game->mlx_data->rot_l = 1;
+	if (key == 97)
+		game->mlx_data->rot_r = 1;
 	if (key == 65307)
 	{
-		ft_destroy_mlx(engine->mlx_data);
-		clear(engine->garbage_coll);
+		ft_destroy_mlx(game->mlx_data);
+		free_garbage_collector(game->garbage_coll);
 		exit(0);
 	}
 	return (0);
 }
 
 // Handles key release events and resets the corresponding movement flags.
-int	key_release(int key, t_engine *eng)
+int	key_release(int key, t_game *game)
 {
-	if (key == 119)
-		eng->mlx_data->up = 0;
-	if (key == 115)
-		eng->mlx_data->down = 0;
-	if (key == 100)
-		eng->mlx_data->left_pers = 0;
 	if (key == 97)
-		eng->mlx_data->right_pers = 0;
+		game->mlx_data->rot_r = 0;
 	if (key == 65361)
-		eng->mlx_data->right = 0;
+		game->mlx_data->k_right = 0;
 	if (key == 65363)
-		eng->mlx_data->left = 0;
+		game->mlx_data->k_left = 0;
+	if (key == 119)
+		game->mlx_data->k_up = 0;
+	if (key == 115)
+		game->mlx_data->k_down = 0;
+	if (key == 100)
+		game->mlx_data->rot_l = 0;
 	return (0);
 }

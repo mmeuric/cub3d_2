@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handler_get_move.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmeuric <mmeuric@student.42.fr>            +#+  +:+       +#+        */
+/*   By: urlooved && mat <urlooved_&&_mat@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/13 01:41:11 by mmeuric           #+#    #+#             */
-/*   Updated: 2025/05/13 03:28:56 by mmeuric          ###   ########.fr       */
+/*   Created: 2025/05/20 13:17:21 by urlooved &&       #+#    #+#             */
+/*   Updated: 2025/05/20 13:17:22 by urlooved &&      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 // Handles all player movement and perspective updates, 
 // Then performs raycasting and draws the frame.
-int	get_move(t_engine *eng)
+int	poll_movement_input(t_game *game)
 {
-	move_up(eng);
-	move_down(eng);
-	move_right(eng);
-	move_left(eng);
-	right_pers(eng);
-	left_pers(eng);
-	calcul(eng, 0);
-	draw(eng);
+	move_right(game);
+	move_left(game);
+	move_up(game);
+	move_down(game);
+	rotate_view_right(game);
+	rotate_view_left(game);
+	compute_projection(game, 0);
+	draw(game);
 	return (0);
 }

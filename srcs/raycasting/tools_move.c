@@ -1,107 +1,116 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handler_move.c                                     :+:      :+:    :+:   */
+/*   tools_move.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmeuric <mmeuric@student.42.fr>            +#+  +:+       +#+        */
+/*   By: urlooved && mat <urlooved_&&_mat@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/13 01:41:44 by mmeuric           #+#    #+#             */
-/*   Updated: 2025/05/13 02:50:52 by mmeuric          ###   ########.fr       */
+/*   Created: 2025/05/20 13:18:17 by urlooved &&       #+#    #+#             */
+/*   Updated: 2025/05/20 13:18:18 by urlooved &&      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-// Moves the player forward based on the current direction, if no wall is in the way.
-void	move_up(t_engine *eng)
+// Moves the player forward based on the current direction, if no wall
+// is in the way.
+void	move_up(t_game *game)
 {
-	if (eng->mlx_data->up)
+	if (game->mlx_data->k_up)
 	{
-		if (eng->map_data->map[(int)(eng->map_data->player.pos_y)]
-			[(int)(eng->map_data->player.pos_x + eng->map_data->player.dir_x
-			* eng->map_data->player.move_speed)] == '0')
-			eng->map_data->player.pos_x += eng->map_data->player.dir_x
-				* eng->map_data->player.move_speed;
-		if (eng->map_data->map[(int)(eng->map_data->player.pos_y
-				+ eng->map_data->player.dir_y
-				* eng->map_data->player.move_speed)]
-			[(int)(eng->map_data->player.pos_x)] == '0')
-			eng->map_data->player.pos_y += eng->map_data->player.dir_y
-				* eng->map_data->player.move_speed;
+		if (game->map_data->map[(int)(game->map_data->player.coor_y)]
+			[(int)(game->map_data->player.coor_x
+				+ game->map_data->player.next_coor_x
+				* game->map_data->player.move_speed)] == '0')
+			game->map_data->player.coor_x += game->map_data->player.next_coor_x
+				* game->map_data->player.move_speed;
+		if (game->map_data->map[(int)(game->map_data->player.coor_y
+				+ game->map_data->player.next_coor_y
+				* game->map_data->player.move_speed)]
+			[(int)(game->map_data->player.coor_x)] == '0')
+			game->map_data->player.coor_y += game->map_data->player.next_coor_y
+				* game->map_data->player.move_speed;
 	}
 }
 
-// Moves the player backward based on the current direction, if no wall is in the way.
-void	move_down(t_engine *eng)
+// Moves the player backward based on the current direction,
+//if no wall is in the way.
+void	move_down(t_game *game)
 {
-	if (eng->mlx_data->down)
+	if (game->mlx_data->k_down)
 	{
-		if (eng->map_data->map[(int)(eng->map_data->player.pos_y)]
-		[(int)(eng->map_data->player.pos_x - eng->map_data->player.dir_x
-		* eng->map_data->player.move_speed)] == '0')
-			eng->map_data->player.pos_x -= eng->map_data->player.dir_x
-				* eng->map_data->player.move_speed;
-		if (eng->map_data->map[(int)(eng->map_data->player.pos_y
-				- eng->map_data->player.dir_y
-				* eng->map_data->player.move_speed)]
-			[(int)(eng->map_data->player.pos_x)] == '0')
-			eng->map_data->player.pos_y -= eng->map_data->player.dir_y
-				* eng->map_data->player.move_speed;
+		if (game->map_data->map[(int)(game->map_data->player.coor_y)]
+		[(int)(game->map_data->player.coor_x
+				- game->map_data->player.next_coor_x
+				* game->map_data->player.move_speed)] == '0')
+			game->map_data->player.coor_x -= game->map_data->player.next_coor_x
+				* game->map_data->player.move_speed;
+		if (game->map_data->map[(int)(game->map_data->player.coor_y
+				- game->map_data->player.next_coor_y
+				* game->map_data->player.move_speed)]
+			[(int)(game->map_data->player.coor_x)] == '0')
+			game->map_data->player.coor_y -= game->map_data->player.next_coor_y
+				* game->map_data->player.move_speed;
 	}
 }
 
-// Rotates the player's view to the left by updating direction and camera plane vectors.
-void	move_left(t_engine *eng)
+// Rotates the player's view to the left by 
+//updating direction and camera plane vectors.
+void	move_left(t_game *game)
 {
 	double	old_dir_x;
 	double	old_plane_x;
 
-	if (eng->mlx_data->left)
+	if (game->mlx_data->k_left)
 	{
-		old_dir_x = eng->map_data->player.dir_x;
-		eng->map_data->player.dir_x = eng->map_data->player.dir_x
-			* cos(eng->map_data->player.rot_speed) - eng->map_data->player.dir_y
-			* sin(eng->map_data->player.rot_speed);
-			eng->map_data->player.dir_y = old_dir_x
-			* sin(eng->map_data->player.rot_speed) + eng->map_data->player.dir_y
-			* cos(eng->map_data->player.rot_speed);
-				old_plane_x = eng->map_data->player.plane_x;
-		eng->map_data->player.plane_x = eng->map_data->player.plane_x
-			* cos(eng->map_data->player.rot_speed)
-			- eng->map_data->player.plane_y
-			* sin(eng->map_data->player.rot_speed);
-			eng->map_data->player.plane_y = old_plane_x
-			* sin(eng->map_data->player.rot_speed)
-			+ eng->map_data->player.plane_y
-			* cos(eng->map_data->player.rot_speed);
+		old_dir_x = game->map_data->player.next_coor_x;
+		game->map_data->player.next_coor_x = game->map_data->player.next_coor_x
+			* cos(game->map_data->player.rot_speed)
+			- game->map_data->player.next_coor_y
+			* sin(game->map_data->player.rot_speed);
+		game->map_data->player.next_coor_y = old_dir_x
+			* sin(game->map_data->player.rot_speed)
+			+ game->map_data->player.next_coor_y
+			* cos(game->map_data->player.rot_speed);
+		old_plane_x = game->map_data->player.cur_plane_x;
+		game->map_data->player.cur_plane_x = game->map_data->player.cur_plane_x
+			* cos(game->map_data->player.rot_speed)
+			- game->map_data->player.cur_plane_y
+			* sin(game->map_data->player.rot_speed);
+		game->map_data->player.cur_plane_y = old_plane_x
+			* sin(game->map_data->player.rot_speed)
+			+ game->map_data->player.cur_plane_y
+			* cos(game->map_data->player.rot_speed);
 	}
 }
 
-// Rotates the player's view to the right by updating direction and camera plane vectors.
-void	move_right(t_engine *eng)
+//! Maybe instead of calling "t_game *game" we could call "map_data"
+// Rotates the player's view to the right by updating 
+// direction and camera plane vectors.
+void	move_right(t_game *game)
 {
 	double	old_dir_x;
 	double	old_plane_x;
 
-	if (eng->mlx_data->right)
+	if (game->mlx_data->k_right)
 	{
-		old_dir_x = eng->map_data->player.dir_x;
-		eng->map_data->player.dir_x = eng->map_data->player.dir_x
-			* cos(-eng->map_data->player.rot_speed)
-			- eng->map_data->player.dir_y
-			* sin(-eng->map_data->player.rot_speed);
-				eng->map_data->player.dir_y = old_dir_x
-			* sin(-eng->map_data->player.rot_speed)
-			+ eng->map_data->player.dir_y
-			* cos(-eng->map_data->player.rot_speed);
-		old_plane_x = eng->map_data->player.plane_x;
-		eng->map_data->player.plane_x = eng->map_data->player.plane_x
-			* cos(-eng->map_data->player.rot_speed)
-			- eng->map_data->player.plane_y
-			* sin(-eng->map_data->player.rot_speed);
-		eng->map_data->player.plane_y = old_plane_x
-			* sin(-eng->map_data->player.rot_speed)
-			+ eng->map_data->player.plane_y
-			* cos(-eng->map_data->player.rot_speed);
+		old_dir_x = game->map_data->player.next_coor_x;
+		game->map_data->player.next_coor_x = game->map_data->player.next_coor_x
+			* cos(-game->map_data->player.rot_speed)
+			- game->map_data->player.next_coor_y
+			* sin(-game->map_data->player.rot_speed);
+		game->map_data->player.next_coor_y = old_dir_x
+			* sin(-game->map_data->player.rot_speed)
+			+ game->map_data->player.next_coor_y
+			* cos(-game->map_data->player.rot_speed);
+		old_plane_x = game->map_data->player.cur_plane_x;
+		game->map_data->player.cur_plane_x = game->map_data->player.cur_plane_x
+			* cos(-game->map_data->player.rot_speed)
+			- game->map_data->player.cur_plane_y
+			* sin(-game->map_data->player.rot_speed);
+		game->map_data->player.cur_plane_y = old_plane_x
+			* sin(-game->map_data->player.rot_speed)
+			+ game->map_data->player.cur_plane_y
+			* cos(-game->map_data->player.rot_speed);
 	}
 }

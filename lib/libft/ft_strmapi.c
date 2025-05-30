@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abahmani <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mmeuric <mmeuric@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/17 08:50:17 by abahmani          #+#    #+#             */
-/*   Updated: 2021/01/17 10:43:25 by abahmani         ###   ########.fr       */
+/*   Created: 2024/11/14 14:36:54 by mmeuric           #+#    #+#             */
+/*   Updated: 2024/11/14 14:46:39 by mmeuric          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,45 @@
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	unsigned int	i;
-	unsigned int	len;
-	char			*str;
+	char	*str;
+	size_t	i;
 
+	if (s == NULL || f == NULL)
+		return (NULL);
+	str = ft_strdup(s);
+	if (str == NULL)
+		return (NULL);
 	i = 0;
-	if (!s)
-		return (NULL);
-	len = ft_strlen(s);
-	str = malloc(sizeof(char) * (len + 1));
-	if (!str)
-		return (NULL);
-	while (i < len)
+	while (str[i])
 	{
-		str[i] = (*f)(i, s[i]);
+		str[i] = f(i, str[i]);
 		i++;
 	}
-	str[len] = '\0';
 	return (str);
 }
+/*
+char	to_uppercase_with_index(unsigned int i, char c)
+{
+	if (i % 2 == 0 && c >= 'a' && c <= 'z')
+		return (c - 32);
+	return (c);
+}
+
+int	main(void)
+{
+	char *str = "hello world";
+	char *result = ft_strmapi(str, to_uppercase_with_index);
+
+	if (result)
+	{
+		printf("Avant ft_strmapi: %s\n", str);
+		printf("Après ft_strmapi: %s\n", result);
+		free(result);
+	}
+	else
+	{
+		printf("Erreur lors de l'allocation ou de la transformation\n");
+	}
+
+	return (0);
+}*/

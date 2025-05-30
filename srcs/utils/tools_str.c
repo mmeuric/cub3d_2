@@ -5,44 +5,29 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: urlooved && mat <urlooved_&&_mat@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/13 14:27:34 by urlooved &&       #+#    #+#             */
-/*   Updated: 2025/05/13 14:27:34 by urlooved &&      ###   ########.fr       */
+/*   Created: 2025/05/20 13:19:07 by urlooved &&       #+#    #+#             */
+/*   Updated: 2025/05/20 13:19:08 by urlooved &&      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	is_in_set(char c, const char *set)
+// Will check if the inputed char "c" is part of an inputed "char_set".
+bool	is_in_char_set(char c, char *char_set)
 {
 	int	i;
 
 	i = 0;
-	while (set[i])
+	while (char_set[i] != '\0')
 	{
-		if ((char)set[i] == c)
-			return (1);
+		if (c == char_set[i])
+			return (true);
 		i++;
 	}
-	return (0);
+	return (false);
 }
 
-//maybe unused
-char	*ft_str_dup_cub(char *str, t_list *garb_c)
-{
-	char	*new;
-	int		i;
-
-	i = 0;
-	new = ft_malloc(sizeof(char) * ft_strlen(str) + 1, garb_c);
-	while (str[i])
-	{
-		new[i] = str[i];
-		i++;
-	}
-	new[i] = '\0';
-	return (new);
-}
-
+// Will copy the data from dest into src.
 char	*ft_strcpy(char *dest, char *src)
 {
 	int	i;
@@ -57,6 +42,7 @@ char	*ft_strcpy(char *dest, char *src)
 	return (dest);
 }
 
+// Will add chars from src to dest.
 char	*ft_strncpy(char *dest, char *src, unsigned int n)
 {
 	unsigned int	i;
@@ -75,10 +61,11 @@ char	*ft_strncpy(char *dest, char *src, unsigned int n)
 	return (dest);
 }
 
+// Will check if is a whitespace or not
 bool	ft_isspace(char c)
 {
-	if (c == '\t' || c == ' ' 
-		|| c == '\v' || c == '\f' 
+	if (c == '\t' || c == ' '
+		|| c == '\v' || c == '\f'
 		|| c == '\r')
 		return (true);
 	else

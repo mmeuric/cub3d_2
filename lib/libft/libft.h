@@ -3,19 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abahmani <abahmani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: urlooved && mat <urlooved_&&_mat@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/09 14:17:55 by abahmani          #+#    #+#             */
-/*   Updated: 2021/11/06 17:19:55 by abahmani         ###   ########.fr       */
+/*   Created: 2024/11/14 14:25:23 by mmeuric           #+#    #+#             */
+/*   Updated: 2025/05/20 15:18:50 by urlooved &&      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include <stddef.h>
+# include <fcntl.h>
+# include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
 # include <unistd.h>
+# include <wchar.h>
+# include <stddef.h>
+
+# define LLONG_MAX 9223372036854775807
+# define INT_MIN -2147483648
 
 typedef struct s_list
 {
@@ -43,8 +50,9 @@ char				*ft_strrchr(const char *s, int c);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t				ft_strlcat(char *dst, const char *src, size_t dstsize);
-char				*ft_strnstr(char *haystack, const char *needle, size_t len);
-int					ft_atoi(const char *str);
+char				*ft_strnstr(const char *haystack,
+						const char *needle, size_t len);
+int					ft_atoi(char *str);
 void				*ft_calloc(size_t count, size_t size);
 char				*ft_strdup(const char *s1);
 char				*ft_substr(char const *s, unsigned int start, size_t len);

@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handler_exec.c                                     :+:      :+:    :+:   */
+/*   handler_exec_text.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmeuric <mmeuric@student.42.fr>            +#+  +:+       +#+        */
+/*   By: urlooved && mat <urlooved_&&_mat@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/13 01:40:46 by mmeuric           #+#    #+#             */
-/*   Updated: 2025/05/13 03:31:38 by mmeuric          ###   ########.fr       */
+/*   Created: 2025/05/20 13:17:10 by urlooved &&       #+#    #+#             */
+/*   Updated: 2025/05/20 13:17:11 by urlooved &&      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 // Clears the screen buffer and loads textures into memory.
-void	exec_load(t_engine *eng)
+void	run_asset_loader(t_game *game)
 {
 	int	i;
 	int	j;
 
 	i = -1;
-	while (++i < SCREEN_HEIGHT)
+	while (++i < SCREEN_H)
 	{
 		j = -1;
-		while (++j < SCREEN_WIDTH)
-			eng->mlx_data->buf[i][j] = 0;
+		while (++j < SCREEN_W)
+			game->mlx_data->buf[i][j] = 0;
 	}
-	malloc_texture(eng);
-	load_texture(eng);
+	alloc_texture_buffer(game);
+	import_textures(game);
 }

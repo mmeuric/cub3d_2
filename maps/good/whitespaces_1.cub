@@ -6,7 +6,7 @@
 
 
 
-NO ./pics/redbrick.xpm
+NO ./textures/bark.xpm
 
 
 
@@ -15,9 +15,9 @@ NO ./pics/redbrick.xpm
 
 
 
-SO ./pics/redbrick.xpm
-                        WE ./pics/redbrick.xpm
-        EA ./pics/redbrick.xpm            
+SO ./textures/bark.xpm
+                        WE ./textures/bark.xpm
+        EA ./textures/bark.xpm            
 
         F 20,           20,             20
 C 200,          200,200

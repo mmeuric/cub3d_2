@@ -3,31 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abahmani <abahmani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: urlooved && mat <urlooved_&&_mat@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/12 09:33:54 by abahmani          #+#    #+#             */
-/*   Updated: 2022/10/16 10:45:32 by abahmani         ###   ########.fr       */
+/*   Created: 2025/05/20 13:15:54 by urlooved &&       #+#    #+#             */
+/*   Updated: 2025/05/20 13:15:57 by urlooved &&      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	print_error(char *msg)
+static void	output_error_msg(char *err_msg)
 {
 	ft_putstr_fd("Error\n", 2);
-	ft_putstr_fd(msg, 2);
+	if (err_msg)
+		ft_putstr_fd(err_msg, 2);
+	if (!err_msg)
+		ft_putstr_fd("OEM : err", 2);
 	ft_putstr_fd("\n", 2);
 }
 
-void	quit_error(char *msg, t_list *garb_c)
+void	err_msg_free_gc_exit(char *err_msg, t_list *g_c)
 {
-	print_error(msg);
-	clear(garb_c);
+	output_error_msg(err_msg);
+	free_garbage_collector(g_c);
 	exit(1);
 }
 
-void	quit_error_no_free(char *msg)
+void	err_msg_exit(char *err_msg)
 {
-	print_error(msg);
+	output_error_msg(err_msg);
 	exit(1);
 }

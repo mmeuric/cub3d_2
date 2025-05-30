@@ -3,41 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abahmani <abahmani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmeuric <mmeuric@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/16 14:04:35 by abahmani          #+#    #+#             */
-/*   Updated: 2022/10/01 01:06:26 by abahmani         ###   ########.fr       */
+/*   Created: 2024/11/14 14:35:58 by mmeuric           #+#    #+#             */
+/*   Updated: 2024/11/14 14:35:59 by mmeuric          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	char	*concat(char const *src, char *dest, size_t start)
-{
-	size_t	i;
-
-	i = 0;
-	while (src[i])
-	{
-		dest[start + i] = src[i];
-		i++;
-	}
-	dest[start + i] = '\0';
-	return (dest);
-}
-
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	size_t	s1_len;
-	size_t	s2_len;
 	char	*str;
+	size_t	len1;
+	size_t	len2;
+	size_t	i;
+	size_t	j;
 
-	if (!s1 || !s2)
-		return (NULL);
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	str = malloc(sizeof(char) * (s1_len + s2_len + 1));
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	str = (char *)malloc(sizeof(*s1) * (len1 + len2 + 1));
 	if (!str)
 		return (NULL);
-	return (concat(s2, concat(s1, str, 0), s1_len));
+	i = 0;
+	j = 0;
+	while (i < len1)
+		str[j++] = s1[i++];
+	i = 0;
+	while (i < len2)
+		str[j++] = s2[i++];
+	str[j] = 0;
+	return (str);
 }
+
+/*
+int	main(void)
+{
+	char	*str1;
+	char	*str2;
+	char	*result;
+
+	str1 = "Hello, ";
+	str2 = "world!";
+	result = ft_strjoin(str1, str2);
+	if (result)
+	{
+		printf("Résultat de la concaténation : %s\n", result);
+		free(result);
+	}
+	else
+	{
+		printf("Erreur d'allocation de mémoire.\n");
+	}
+	return (0);
+}
+*/

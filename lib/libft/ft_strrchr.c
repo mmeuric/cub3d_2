@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abahmani <abahmani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmeuric <mmeuric@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/09 17:30:52 by abahmani          #+#    #+#             */
-/*   Updated: 2021/06/12 18:18:16 by abahmani         ###   ########.fr       */
+/*   Created: 2024/11/14 14:38:19 by mmeuric           #+#    #+#             */
+/*   Updated: 2024/11/14 14:38:20 by mmeuric          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,32 @@
 
 char	*ft_strrchr(const char *s, int c)
 {
-	const char	*tmp_last;
-	const char	*tmp;
+	int	i;
 
-	tmp_last = s;
-	tmp = s;
-	while (*tmp)
+	i = 0;
+	while (s[i])
+		i++;
+	while (i >= 0)
 	{
-		if (*tmp == (char)c)
-		{
-			tmp_last = tmp;
-		}
-		tmp++;
+		if (s[i] == (char)c)
+			return ((char *)(s + i));
+		i--;
 	}
-	if (*tmp_last == (char)c)
-		return ((char *)tmp_last);
-	else if ((char)c == '\0')
-		return ((char *)tmp);
-	else
-		return (NULL);
+	return (NULL);
 }
+/*
+int	main(void)
+{
+	char	s[] = "Hello, world!";
+	char	c;
+	char	*result1;
+	char	*result2;
+
+	c = 'o';
+	result1 = strrchr(s, c);
+	result2 = ft_strrchr(s, c);
+	printf("Result of strrchr: %s\n", result1);
+	printf("Result of ft_strrchr: %s\n", result2);
+	return (0);
+}
+*/

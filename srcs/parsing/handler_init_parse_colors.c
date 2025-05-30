@@ -1,36 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   color.c                                            :+:      :+:    :+:   */
+/*   handler_init_parse_colors.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abahmani <abahmani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: urlooved && mat <urlooved_&&_mat@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/16 18:45:40 by abahmani          #+#    #+#             */
-/*   Updated: 2022/10/19 17:04:03 by abahmani         ###   ########.fr       */
+/*   Created: 2025/05/20 13:16:16 by urlooved &&       #+#    #+#             */
+/*   Updated: 2025/05/20 13:16:18 by urlooved &&      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 /*
-	- Will init the struct t_rgb.
+	- Will init the struct t_color.
 		- init rgb.
 		- parse rgb data.
 		- calculate color
 		- update the flag is_inited to true
 */
-static bool	init_colors(t_rgb *color, char **color_components)
+static bool	init_output_color(t_color *color, char **color_components)
 {
-	color->red = ft_atoi((const char *)color_components[0]);
-	color->green = ft_atoi((const char *)color_components[1]);
-	color->blue = ft_atoi((const char *)color_components[2]);
-	if (color->red < 0 || color->red > 255)
+	int	red;
+	int	green;
+	int	blue;
+
+	red = ft_atoi(color_components[0]);
+	green = ft_atoi(color_components[1]);
+	blue = ft_atoi(color_components[2]);
+	if (red < 0 || red > 255)
 		return (false);
-	if (color->green < 0 || color->green > 255)
+	if (green < 0 || green > 255)
 		return (false);
-	if (color->blue < 0 || color->blue > 255)
+	if (blue < 0 || blue > 255)
 		return (false);
-	color->color = (color->red * 65536) + (color->green * 256) + color->blue;
+	color->output_color = (red * 65536) + (green * 256) + blue;
 	color->is_inited = true;
 	return (true);
 }
@@ -47,7 +51,7 @@ static bool	has_valid_rgb_data(char **c_c)
 	{
 		j = 0;
 		if (!ft_strlen(c_c[i]) || ft_strlen(c_c[i]) > 3 || c_c[i][0] == '-')
-			return (false);			
+			return (false);
 		while (c_c[i][j] != '\0')
 		{
 			if (!ft_isdigit(c_c[i][j]))
@@ -60,6 +64,7 @@ static bool	has_valid_rgb_data(char **c_c)
 		return (false);
 	return (true);
 }
+
 /*
 	Will free a array_strings (Color Components). 
 	In architectural view. These is part of a tools_free type. 
@@ -74,6 +79,7 @@ static void	free_array_strings(char **array)
 		free(array[i++]);
 	free(array);
 }
+
 /*
 	After the split we need to clean the rest of 
 	" " & "\t" for proper init.
@@ -101,32 +107,29 @@ char	**trim_each_element_array(char **tab)
 		- scrap de rgb data from the line.
 		- parse the rgb data.
 		- error handling.
-		- create a new instance of t_rgb if necesary.
-		- init the t_rgb with the scraped, parsed data.
+		- create a new instance of t_color if necesary.
+		- init the t_color with the scraped, parsed data.
 		- free the temporary data stored in (char **)color_components
 */
-void handler_init_parse_colors(t_engine *eng, char *line, t_rgb *rgb)
+void	handler_init_parse_colors(t_game *game, char *line, t_color *rgb)
 {
-	t_rgb	*color;
+	t_color	*color;
 	char	**color_components;
 
 	if (rgb && rgb->is_inited == true)
-		quit_error("HIPC : parser error", eng->garbage_coll);					//* possible error : colors duplicated
-
-	color_components = trim_each_element_array(ft_split(line + 2, ','));			// From the given line. We will split it in every ',' and then trim the extra "\t" or " ". 
+		err_msg_free_gc_exit("HIPC : parser error", game->garbage_coll);
+	color_components = trim_each_element_array(ft_split(line + 2, ','));
 	if (!has_valid_rgb_data(color_components))
 	{
 		free_array_strings(color_components);
-		quit_error("HIPC : parser error", eng->garbage_coll);						//* possible error : err color data
+		err_msg_free_gc_exit("HIPC : parser error", game->garbage_coll);
 	}
-
-	color = (t_rgb *)malloc(sizeof(t_rgb));
+	color = malloc(sizeof(t_color));
 	if (!color)
-		quit_error(MALLOC_ERROR, eng->garbage_coll);
-	ft_lstadd_back(&eng->garbage_coll, ft_lstnew(color));
-
-	if (!init_colors(color, color_components))
-		quit_error("HIPC : parser error", eng->garbage_coll);					//* possible error : err color out band
+		err_msg_free_gc_exit("HIPC : err malloc", game->garbage_coll);
+	ft_lstadd_back(&game->garbage_coll, ft_lstnew(color));
+	if (!init_output_color(color, color_components))
+		err_msg_free_gc_exit("HIPC : parser error", game->garbage_coll);
 	free_array_strings(color_components);
 	*rgb = *color;
 }

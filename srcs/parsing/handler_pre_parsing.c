@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: urlooved && mat <urlooved_&&_mat@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/05 13:33:17 by urlooved &&       #+#    #+#             */
-/*   Updated: 2025/05/05 13:33:17 by urlooved &&      ###   ########.fr       */
+/*   Created: 2025/05/20 13:16:43 by urlooved &&       #+#    #+#             */
+/*   Updated: 2025/05/20 13:16:45 by urlooved &&      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,12 @@
 		- Only case accepted 2 arguments.
 	- Test / check availability of inpited file (av[1]).
 */
-bool handler_pre_parsing(int ac, char **av)
+void	handler_pre_parsing(int ac, char **av)
 {
 	if (!are_win_params_correct())
-		return (print_error("pre parsing msg: Wrong window parameters"), exit(1), false);
+		err_msg_exit("PPP: Wrong window parameters");
 	if (ac != 2)
-		return (print_error("pre parsing msg: Wrong amount of arguments"), exit(1), false);
+		err_msg_exit("PPP: Wrong amount of arguments");
 	if (!handler_pre_parser_file(av[1]))
-		return (print_error("pre parsing msg: Error in file map"), exit(1), false);
-	return (true);
+		err_msg_exit("PPP: Err inputed file");
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abahmani <abahmani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmeuric <mmeuric@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/09 16:02:36 by abahmani          #+#    #+#             */
-/*   Updated: 2021/06/12 18:07:37 by abahmani         ###   ########.fr       */
+/*   Created: 2024/11/14 14:22:18 by mmeuric           #+#    #+#             */
+/*   Updated: 2024/11/14 14:24:28 by mmeuric          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,16 @@
 
 int	ft_isalpha(int c)
 {
-	if (c >= 'A' && c <= 'Z')
-	{
+	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
 		return (1);
-	}
-	if (c >= 'a' && c <= 'z')
-	{
-		return (1);
-	}
 	return (0);
 }
+/*
+int	main(void)
+{
+	printf("Pour A : %d\n", ft_isalpha('A'));
+		printf("Pour * : %d\n", ft_isalpha('*'));
+		printf("Pour k : %d\n", ft_isalpha('k'));
+	return (0);
+}
+*/

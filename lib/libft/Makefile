@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: abahmani <abahmani@student.42.fr>          +#+  +:+       +#+         #
+#    By: urlooved && mat <urlooved_&&_mat@studen    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/01/16 14:49:32 by abahmani          #+#    #+#              #
-#    Updated: 2021/12/11 12:33:00 by abahmani         ###   ########.fr        #
+#    Created: 2024/11/14 14:25:23 by mmeuric           #+#    #+#              #
+#    Updated: 2025/05/14 00:25:53 by urlooved &&      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 

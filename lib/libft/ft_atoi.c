@@ -3,63 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abahmani <abahmani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmeuric <mmeuric@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/09 18:28:27 by abahmani          #+#    #+#             */
-/*   Updated: 2021/06/12 18:06:52 by abahmani         ###   ########.fr       */
+/*   Created: 2024/11/14 14:01:14 by mmeuric           #+#    #+#             */
+/*   Updated: 2024/11/16 02:20:57 by mmeuric          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	int	pass_isspace(const char *str)
+int	ft_atoi(char *str)
 {
-	int	i;
+	int	res;
+	int	sign;
 
-	i = 0;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+	res = 0;
+	sign = 1;
+	while (*str == 32 || (*str >= 9 && *str <= 13))
+		str++;
+	if (*str == '-')
+		sign *= -1;
+	if (*str == '-' || *str == '+')
+		str++;
+	while (*str >= '0' && *str <= '9')
 	{
-		i++;
+		res = res * 10 + *str - '0';
+		str++;
 	}
-	return (i);
+	return (res * sign);
 }
 
-static	int	find_signe(const char *str, int i)
+/*
+int	main(void)
 {
-	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-			return (0);
-		else
-			return (2);
-	}
-	return (1);
-}
+	char	*str1 = "   -42";
+	char	*str2 = "   +123";
+	char	*str3 = "   456";
+	char	*str4 = "   -00321";
 
-int	ft_atoi(const char *str)
-{
-	int	i;
-	int	signe;
-	int	nb;
+	printf("Original atoi: %d\n", atoi(str1));
+	printf("ft_atoi: %d\n", ft_atoi(str1));
+	printf("Original atoi: %d\n", atoi(str2));
+	printf("ft_atoi: %d\n", ft_atoi(str2));
+	printf("Original atoi: %d\n", atoi(str3));
+	printf("ft_atoi: %d\n", ft_atoi(str3));
+	printf("Original atoi: %d\n", atoi(str4));
+	printf("ft_atoi: %d\n", ft_atoi(str4));
 
-	i = pass_isspace(str);
-	signe = find_signe(str, i);
-	nb = 0;
-	if (signe == 0 || signe == 2)
-	{
-		signe--;
-		i++;
-	}
-	while (ft_isdigit((int)str[i]))
-	{
-		nb = (nb + (str[i] - 48) * signe);
-		if (str[i + 1] && ft_isdigit(str[i + 1]))
-			nb *= 10;
-		if (nb < 0 && signe == 1)
-			return (-1);
-		if (nb > 0 && signe == -1)
-			return (0);
-		i++;
-	}
-	return (nb);
-}
+	return (0);
+}*/

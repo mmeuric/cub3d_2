@@ -1,52 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_file_error.c                                 :+:      :+:    :+:   */
+/*   handler_pre_parser_file.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abahmani <abahmani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: urlooved && mat <urlooved_&&_mat@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/11 17:58:53 by abahmani          #+#    #+#             */
-/*   Updated: 2022/10/01 03:38:39 by abahmani         ###   ########.fr       */
+/*   Created: 2025/05/20 13:16:37 by urlooved &&       #+#    #+#             */
+/*   Updated: 2025/05/20 13:16:39 by urlooved &&      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 //* This function checks if the input file name is valid.
-static bool	is_file_extention_correct(char *file_name)
+static bool	is_file_extention_correct(char *file_path)
 {
 	unsigned int	len;
 
-	len = (int)ft_strlen(file_name);
-	if (len < 4)										// If the file name is too short, return 0 (invalid).
+	len = (int)ft_strlen(file_path);
+	if (len < 4)
 		return (false);
-	if (ft_strncmp(&file_name[len - 4], ".cub", 4) != 0)
-		return (false);									// Check if the file name ends with ".cub".
+	if (ft_strncmp(&file_path[len - 4], ".cub", 4) != 0)
+		return (false);
 	return (true);
 }
 
 //* This function checks if the input file exists.
-static bool	does_file_exist(char *file_name)
+static bool	does_file_exist(char *file_path)
 {
 	int	fd;
 
-	fd = open((char *)file_name, O_RDONLY);				// Try to open the file in read-only mode.
-	if (fd == -1)										// If the file cannot be opened, return 0 (does not exist).
+	fd = open((char *)file_path, O_RDONLY);
+	if (fd == -1)
 		return (false);
 	close(fd);
 	return (true);
 }
 
 //* This function checks if the input file is not a directory.
-static bool	is_file_name_a_directory(char *file_name)
+static bool	is_file_path_a_directory(char *file_path)
 {
-	int	fd;
+	int				fd;
 	unsigned int	len;
 
-	len = (int)ft_strlen(file_name);
-	if (file_name[len - 5] == '/')
+	len = (int)ft_strlen(file_path);
+	if (len > 4 && file_path[len - 5] == '/')
 		return (false);
-	fd = open((char *)file_name, O_DIRECTORY);			// Try to open the file as a directory.
+	fd = open((char *)file_path, O_DIRECTORY);
 	if (fd != -1)
 	{
 		close(fd);
@@ -56,27 +56,29 @@ static bool	is_file_name_a_directory(char *file_name)
 }
 
 //* This function checks if the input file is not a symbolic link.
-static bool	is_simbolic_link(char *file_name)
+static bool	is_simbolic_link(char *file_path)
 {
 	int	fd;
 
-	fd = open((char *)file_name, O_NOFOLLOW);			// Try to open the file without following symbolic links.
+	fd = open((char *)file_path, O_NOFOLLOW);
 	if (fd == -1)
 		return (false);
-	close(fd);											// Close the file descriptor if it is valid.
+	close(fd);
 	return (true);
 }
 
 // Handler that will check if the 
-bool	handler_pre_parser_file(char *file_name)
+bool	handler_pre_parser_file(char *file_path)
 {
-	if (!is_file_extention_correct(file_name))						// check extention of the file.
-		return (false);	
-	if (!does_file_exist(file_name))								// Check if the file exists.
+	if (!file_path || !*file_path)
 		return (false);
-	if (!is_file_name_a_directory(file_name))						// Check if the file is not a directory.
+	if (!is_file_extention_correct(file_path))
 		return (false);
-	if (!is_simbolic_link(file_name))								// Check if the file is not a symbolic link.
+	if (!does_file_exist(file_path))
 		return (false);
-	return (true);													// Return 1 if all checks pass and the file is valid.
+	if (!is_file_path_a_directory(file_path))
+		return (false);
+	if (!is_simbolic_link(file_path))
+		return (false);
+	return (true);
 }

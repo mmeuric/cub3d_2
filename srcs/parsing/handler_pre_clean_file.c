@@ -1,83 +1,84 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tools_debug.c                                      :+:      :+:    :+:   */
+/*   handler_pre_clean_file.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: urlooved && mat <urlooved_&&_mat@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/12 16:53:18 by urlooved &&       #+#    #+#             */
-/*   Updated: 2025/05/12 16:53:18 by urlooved &&      ###   ########.fr       */
+/*   Created: 2025/05/20 13:16:31 by urlooved &&       #+#    #+#             */
+/*   Updated: 2025/05/20 13:16:33 by urlooved &&      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-
-static char *clean_line(char *line)
+static char	*clean_line(char *line)
 {
-    int i;
-	int j;
-    char *new_line;
+	int		i;
+	int		j;
+	char	*new_line;
 
 	i = 0;
 	j = 0;
-	while (line[i] != '\0' && ft_isspace(line[i]))				// Skip leading whitespace
-        i++;
-    while (line[i + j] != '\0' && !ft_isspace(line[i + j]))		// Find the end of the identifier (e.g., 'C', 'F', etc.)
-        j++;
-    new_line = malloc(ft_strlen(line) + 1);						// Allocate memory for the new line
-    if (!new_line)
-        return NULL;
-    ft_strncpy(new_line, line + i, j);							// Copy the identifier
-    new_line[j] = '\0';
-    ft_strcat(new_line, " ");									// Add a single space after the identifier
-    i += j;														// Skip whitespace between the identifier and the data
-    while (line[i] != '\0' && ft_isspace(line[i]))
-        i++;
-    ft_strcat(new_line, line + i);								// Append the rest of the data
-    return new_line;
+	while (line[i] != '\0' && ft_isspace(line[i]))
+		i++;
+	while (line[i + j] != '\0' && !ft_isspace(line[i + j]))
+		j++;
+	new_line = malloc(ft_strlen(line) + 1);
+	if (!new_line)
+		return (NULL);
+	ft_strncpy(new_line, line + i, j);
+	new_line[j] = '\0';
+	ft_strcat(new_line, " ");
+	i += j;
+	while (line[i] != '\0' && ft_isspace(line[i]))
+		i++;
+	ft_strcat(new_line, line + i);
+	return (new_line);
 }
 
 // Pre-clean lines related to textures and colors, stop when the map starts
-static bool pre_clean_texture_color_lines(t_engine *eng)
+static bool	pre_clean_texture_color_lines(t_game *game)
 {
 	int		i;
 	char	*trimmed_line;
 
 	i = 0;
-	while (eng->file_raw_data[i] != NULL)
+	while (game->file_raw_data[i] != NULL)
 	{
-		if (is_t_c_need_pre_trim(eng->file_raw_data[i]))
+		if (is_t_c_need_pre_trim(game->file_raw_data[i]))
 		{
-			trimmed_line = ft_strtrim(eng->file_raw_data[i], " \t");
+			trimmed_line = ft_strtrim(game->file_raw_data[i], " \t");
 			if (!trimmed_line)
 				return (false);
-			eng->file_raw_data[i] = trimmed_line;
-			ft_lstadd_back(&eng->garbage_coll, ft_lstnew(trimmed_line));
+			game->file_raw_data[i] = trimmed_line;
+			ft_lstadd_back(&game->garbage_coll, ft_lstnew(trimmed_line));
 		}
 		i++;
 	}
 	return (true);
 }
 
-// Will handle : "F     20,20,20" -> "F 20,20,20".
-static bool after_color_trim(t_engine *eng)
+// Will handle : "F     20,20,20" -> "F 20,20,20". or  
+// "NO		./pics/redbrick.xpm" ->  "NO ./pics/redbrick.xpm"
+static bool	after_texture_color_trim(t_game *game)
 {
 	int		i;
 	char	*trimmed_line;
 
 	i = 0;
-	while (eng->file_raw_data[i] != NULL)
-    {
-        if (is_c_need_after_trim(eng->file_raw_data[i]))
+	while (game->file_raw_data[i] != NULL)
+	{
+		if (is_c_need_after_trim(game->file_raw_data[i])
+			|| is_t_need_after_trim(game->file_raw_data[i]))
 		{
-			trimmed_line = clean_line(eng->file_raw_data[i]);
+			trimmed_line = clean_line(game->file_raw_data[i]);
 			if (!trimmed_line)
 				return (false);
-			eng->file_raw_data[i] = trimmed_line;
-			ft_lstadd_back(&eng->garbage_coll, ft_lstnew(trimmed_line));
+			game->file_raw_data[i] = trimmed_line;
+			ft_lstadd_back(&game->garbage_coll, ft_lstnew(trimmed_line));
 		}
-        i++;
+		i++;
 	}
 	return (true);
 }
@@ -91,16 +92,10 @@ static bool after_color_trim(t_engine *eng)
 			- ex : "Texture/color            data"
 			- output : "Texture/color data"
 */
-void	handler_pre_clean_file(t_engine *eng)
+void	handler_pre_clean_file(t_game *game)
 {
-	if (!pre_clean_texture_color_lines(eng))
-		quit_error("HPCF : error parser", eng->garbage_coll);		// Error related trim  "       Texture/color data".
-
-	//print_file_raw_data(eng);
-	//printf("-------\n");
-	if (!after_color_trim(eng))
-		quit_error("HPCF : error parser", eng->garbage_coll);		// error related trim = "Texture/color            data".
-
-	//print_file_raw_data(eng);
-	//printf("-------\n");
+	if (!pre_clean_texture_color_lines(game))
+		err_msg_free_gc_exit("HPCF : error parser", game->garbage_coll);
+	if (!after_texture_color_trim(game))
+		err_msg_free_gc_exit("HPCF : error parser", game->garbage_coll);
 }

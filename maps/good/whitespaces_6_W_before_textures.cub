@@ -1,11 +1,11 @@
-					NO ./pics/redbrick.xpm
-          SO ./pics/redbrick.xpm
-					WE ./pics/redbrick.xpm
-  	  	  	  	   EA ./pics/redbrick.xpm
+					NO ./textures/bark.xpm
+          SO ./textures/bark.xpm
+					WE ./textures/bark.xpm
+  	  	  	  	   EA ./textures/bark.xpm
 
 
-F 18,53,25
-C 153,204,255
+F 32, 32, 32
+C 0, 0, 102
 
 11111
 10001

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_raycast_column.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmeuric <mmeuric@student.42.fr>            +#+  +:+       +#+        */
+/*   By: urlooved && mat <urlooved_&&_mat@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/13 01:35:55 by mmeuric           #+#    #+#             */
-/*   Updated: 2025/05/13 02:58:17 by mmeuric          ###   ########.fr       */
+/*   Created: 2025/05/20 13:17:40 by urlooved &&       #+#    #+#             */
+/*   Updated: 2025/05/20 13:17:42 by urlooved &&      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 // Initializes raycasting parameters for a screen column,
 // setting ray direction and distance calculations.
-void	init_raycast_column(t_engine *eng, int x)
+void	init_raycast_column(t_game *game, int x)
 {
 	(void)x;
-	eng->cal->camera_x = 2 * x / (double)SCREEN_WIDTH - 1;
-	eng->cal->ray_dir_x = eng->map_data->player.dir_x
-		+ eng->map_data->player.plane_x * eng->cal->camera_x;
-	eng->cal->ray_dir_y = eng->map_data->player.dir_y
-		+ eng->map_data->player.plane_y * eng->cal->camera_x;
-	eng->cal->map_x = (int)eng->map_data->player.pos_x;
-	eng->cal->map_y = (int)eng->map_data->player.pos_y;
-	eng->cal->delta_dist_x = fabs(1 / eng->cal->ray_dir_x);
-	eng->cal->delta_dist_y = fabs(1 / eng->cal->ray_dir_y);
-	eng->cal->hit = 0;
+	game->cal->screen_ray_pos = 2 * x / (double)SCREEN_W - 1;
+	game->cal->ray_dir_x = game->map_data->player.next_coor_x
+		+ game->map_data->player.cur_plane_x * game->cal->screen_ray_pos;
+	game->cal->ray_dir_y = game->map_data->player.next_coor_y
+		+ game->map_data->player.cur_plane_y * game->cal->screen_ray_pos;
+	game->cal->tile_x = (int)game->map_data->player.coor_x;
+	game->cal->tile_y = (int)game->map_data->player.coor_y;
+	game->cal->delta_dist_x = fabs(1 / game->cal->ray_dir_x);
+	game->cal->delta_dist_y = fabs(1 / game->cal->ray_dir_y);
+	game->cal->wall_strike = 0;
 }

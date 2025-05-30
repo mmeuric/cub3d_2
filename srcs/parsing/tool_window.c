@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: urlooved && mat <urlooved_&&_mat@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/05 13:59:31 by urlooved &&       #+#    #+#             */
-/*   Updated: 2025/05/05 13:59:31 by urlooved &&      ###   ########.fr       */
+/*   Created: 2025/05/20 13:16:54 by urlooved &&       #+#    #+#             */
+/*   Updated: 2025/05/20 13:16:56 by urlooved &&      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,7 @@ if inputed data is correct before any malloc.
 */
 bool	are_win_params_correct(void)
 {
-	if (SCREEN_WIDTH < 72 || SCREEN_WIDTH > 1080 || SCREEN_HEIGHT < 48 || SCREEN_HEIGHT > 1920)
-	{
-		print_error("pre_parsing msg : err screen params");
-		exit(1);
+	if (SCREEN_W < 72 || SCREEN_W > 1080 || SCREEN_H < 48 || SCREEN_H > 1920)
 		return (false);
-	}
 	return (true);
 }

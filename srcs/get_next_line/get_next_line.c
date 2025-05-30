@@ -3,105 +3,123 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abahmani <abahmani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmeuric <mmeuric@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/31 10:53:47 by abahmani          #+#    #+#             */
-/*   Updated: 2022/10/16 14:46:53 by abahmani         ###   ########.fr       */
+/*   Created: 2024/11/15 19:22:56 by mmeuric          #+#    #+#             */
+/*   Updated: 2024/11/22 16:30:55 by mmeuric          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	find_new_line(char *str)
+int	ft_read_file(int fd, char *buffer, char *buf_remains, char **line)
 {
-	unsigned int	i;
+	int	byte_read;
+	int	j;
+
+	byte_read = read(fd, buffer, BUFFER_SIZE);
+	while (byte_read > 0)
+	{
+		j = 0;
+		buffer[byte_read] = '\0';
+		while (buffer[j] != '\0' && buffer[j] != '\n')
+			j++;
+		if (buffer[j] == '\n')
+		{
+			ft_strcpy_from(buf_remains, buffer, j + 1);
+			if (ft_update_line(line, j, buffer) == -1)
+				return (-1);
+			break ;
+		}
+		if (ft_update_line(line, j, buffer) == -1)
+			return (-1);
+		byte_read = read(fd, buffer, BUFFER_SIZE);
+	}
+	if (byte_read == 0 || byte_read == -1)
+		return (byte_read);
+	return (1);
+}
+
+int	ft_finish_buffer(char *buffer, char *buf_remains, char **line)
+{
+	int	i;
 
 	i = 0;
-	while (str[i] && str[i] != '\n')
-		i++;
-	if (str[i])
-		return (i);
-	else
-		return (-1);
-}
-
-int	end(int ret, char **str, char **line)
-{
-	int		newline;
-
-	if (ret == -1)
-		return (-1);
-	newline = find_new_line(*str);
-	if (newline < 0)
+	if (buf_remains[0] != 0)
 	{
-		*line = *str;
-		*str = NULL;
-		return (0);
+		ft_strcpy_from(buffer, buf_remains, 0);
+		while (buf_remains[i] != '\0' && buf_remains[i] != '\n')
+			i++;
+		if (buf_remains[i] == '\n')
+		{
+			ft_strcpy_from(buf_remains, buffer, i + 1);
+			if (ft_update_line(line, i, buffer) == -1)
+				return (-1);
+			return (1);
+		}
+		if (ft_update_line(line, i, buffer) == -1)
+			return (-1);
 	}
-	else
-	{
-		*line = ft_substr_gnl(*str, 0, newline, 1);
-		*str = ft_substr_gnl(*str, newline + 1, ft_strlen(*str) - newline, 0);
-		return (1);
-	}
-}
-
-int	fill_buf(char *buf, char **line, char **str, int ret)
-{
-	int		newline;
-
-	if (ret == -1)
-	{
-		free(*str);
-		return (-1);
-	}
-	buf[ret] = '\0';
-	newline = find_new_line(buf);
-	if (newline > -1)
-	{
-		*str = ft_strjoin_gnl(*str, buf);
-		newline = find_new_line(*str);
-		*line = ft_substr_gnl(*str, 0, newline, 1);
-		*str = ft_substr_gnl(*str, newline + 1, ft_strlen(*str) - newline, 0);
-		return (1);
-	}
-	*str = ft_strjoin_gnl(*str, buf);
 	return (0);
 }
 
-int	free_str(int newline, char **str)
+void	ft_empty_buffer(char *buf_remains)
 {
-	if (newline == -1)
+	int	i;
+
+	i = 0;
+	while (i < BUFFER_SIZE)
 	{
-		if (*str)
-			free(*str);
-		return (-1);
+		buf_remains[i] = 0;
+		i++;
 	}
-	return (newline);
+}
+
+char	*ft_strdupl(const char *s1)
+{
+	char	*cpy;
+	char	*str;
+	int		str_len;
+	int		i;
+
+	str = (char *)s1;
+	str_len = ft_strlength(str);
+	cpy = malloc(sizeof(char) * str_len + 1);
+	if (!cpy)
+		return (0);
+	i = 0;
+	while (i < str_len)
+	{
+		cpy[i] = s1[i];
+		i++;
+	}
+	cpy[i] = '\0';
+	return (cpy);
 }
 
 int	get_next_line(int fd, char **line)
 {
-	int				ret;
-	char			buf[20 + 1];
-	static char		*str = NULL;
-	int				newline;
+	char		buffer[BUFFER_SIZE + 1];
+	static char	buf_remains[BUFFER_SIZE + 1] = {0};
+	int			return_value;
 
-	if (!line || 20 <= 0 || read(fd, buf, 0))
+	if (BUFFER_SIZE <= 0 || fd < 0 || fd > 258 || !line)
+	{
 		return (-1);
-	if (!str)
-	{
-		str = malloc(sizeof(char));
-		str[0] = '\0';
 	}
-	ret = read(fd, buf, 20);
-	while (ret > 0)
+	*line = NULL;
+	return_value = ft_finish_buffer(buffer, buf_remains, line);
+	if (return_value == 1 || return_value == -1)
+		return (return_value);
+	return_value = ft_read_file(fd, buffer, buf_remains, line);
+	if (return_value == -1)
+		return (-1);
+	if (return_value == 0 || *line == NULL)
 	{
-		newline = fill_buf(buf, line, &str, ret);
-		if (newline == 1 || newline == -1)
-			return (free_str(newline, &str));
-		ret = read(fd, buf, 20);
+		if (*line == NULL)
+			*line = ft_strdupl("\0");
+		ft_empty_buffer(buf_remains);
+		return (0);
 	}
-	newline = end(ret, &str, line);
-	return (free_str(newline, &str));
+	return (return_value);
 }

@@ -3,49 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   tools_move2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmeuric <mmeuric@student.42.fr>            +#+  +:+       +#+        */
+/*   By: urlooved && mat <urlooved_&&_mat@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/13 03:27:41 by mmeuric           #+#    #+#             */
-/*   Updated: 2025/05/13 03:34:54 by mmeuric          ###   ########.fr       */
+/*   Created: 2025/05/20 13:18:21 by urlooved &&       #+#    #+#             */
+/*   Updated: 2025/05/20 13:18:26 by urlooved &&      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 // Moves the player to the right (strafing), if no wall is in the way.
-void	right_pers(t_engine *eng)
+void	rotate_view_right(t_game *game)
 {
-	if (eng->mlx_data->right_pers)
+	if (game->mlx_data->rot_r)
 	{
-		if (eng->map_data->map[(int)(eng->map_data->player.pos_y)]
-			[(int)(eng->map_data->player.pos_x + eng->map_data->player.dir_y
-			* eng->map_data->player.move_speed)] == '0')
-			eng->map_data->player.pos_x += eng->map_data->player.dir_y
-				* eng->map_data->player.move_speed;
-		if (eng->map_data->map[(int)(eng->map_data->player.pos_y
-				- eng->map_data->player.dir_x
-				* eng->map_data->player.move_speed)]
-			[(int)(eng->map_data->player.pos_x)] == '0')
-				eng->map_data->player.pos_y -= eng->map_data->player.dir_x
-				* eng->map_data->player.move_speed;
+		if (game->map_data->map[(int)(game->map_data->player.coor_y)]
+			[(int)(game->map_data->player.coor_x
+				+ game->map_data->player.next_coor_y
+				* game->map_data->player.move_speed)] == '0')
+			game->map_data->player.coor_x
+				+= game->map_data->player.next_coor_y
+				* game->map_data->player.move_speed;
+		if (game->map_data->map[(int)(game->map_data->player.coor_y
+				- game->map_data->player.next_coor_x
+				* game->map_data->player.move_speed)]
+			[(int)(game->map_data->player.coor_x)] == '0')
+			game->map_data->player.coor_y
+				-= game->map_data->player.next_coor_x
+				* game->map_data->player.move_speed;
 	}
 }
 
 // Moves the player to the left (strafing), if no wall is in the way.
-void	left_pers(t_engine *eng)
+void	rotate_view_left(t_game *game)
 {
-	if (eng->mlx_data->left_pers)
+	if (game->mlx_data->rot_l)
 	{
-		if (eng->map_data->map[(int)(eng->map_data->player.pos_y)]
-			[(int)(eng->map_data->player.pos_x - eng->map_data->player.dir_y
-			* eng->map_data->player.move_speed)] == '0')
-				eng->map_data->player.pos_x -= eng->map_data->player.dir_y
-				* eng->map_data->player.move_speed;
-		if (eng->map_data->map[(int)(eng->map_data->player.pos_y
-				+ eng->map_data->player.dir_x
-				* eng->map_data->player.move_speed)]
-			[(int)(eng->map_data->player.pos_x)] == '0')
-				eng->map_data->player.pos_y += eng->map_data->player.dir_x
-				* eng->map_data->player.move_speed;
+		if (game->map_data->map[(int)(game->map_data->player.coor_y)]
+			[(int)(game->map_data->player.coor_x
+				- game->map_data->player.next_coor_y
+				* game->map_data->player.move_speed)] == '0')
+			game->map_data->player.coor_x
+				-= game->map_data->player.next_coor_y
+				* game->map_data->player.move_speed;
+		if (game->map_data->map[(int)(game->map_data->player.coor_y
+				+ game->map_data->player.next_coor_x
+				* game->map_data->player.move_speed)]
+			[(int)(game->map_data->player.coor_x)] == '0')
+			game->map_data->player.coor_y
+				+= game->map_data->player.next_coor_x
+				* game->map_data->player.move_speed;
 	}
 }

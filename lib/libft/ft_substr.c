@@ -3,49 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abahmani <abahmani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmeuric <mmeuric@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/10 17:57:42 by abahmani          #+#    #+#             */
-/*   Updated: 2022/09/25 16:50:37 by abahmani         ###   ########.fr       */
+/*   Created: 2024/11/14 14:38:39 by mmeuric           #+#    #+#             */
+/*   Updated: 2024/11/16 02:43:51 by mmeuric          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	*ft_malloc_substr(unsigned int start, size_t len, size_t size)
-{
-	char	*ptr;
-
-	if (size > start)
-	{
-		if ((size_t)(size - start + 1) < len)
-			ptr = malloc((size - start + 1) * sizeof(char));
-		else
-			ptr = malloc((len + 1) * sizeof(char));
-	}
-	else
-		ptr = malloc(sizeof(char));
-	return (ptr);
-}
-
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	size_t	size;
 	size_t	i;
-	char	*ptr;
+	size_t	size;
+	char	*dest;
 
-	size = ft_strlen(s);
-	i = 0;
 	if (!s)
-		return (0);
-	ptr = ft_malloc_substr(start, len, size);
-	if (!ptr)
 		return (NULL);
-	while (start + i < size && s[start + i] && i < len)
+	if ((unsigned int)ft_strlen(s) < start)
+		return (ft_strdup(""));
+	size = ft_strlen(s + start);
+	if (size < len)
+		len = size;
+	i = 0;
+	dest = (char *)malloc(sizeof(char) * (len + 1));
+	if (!dest)
+		return (NULL);
+	while (s[i] && i < len)
 	{
-		ptr[i] = s[start + i];
+		dest[i] = s[i + start];
 		i++;
 	}
-	ptr[i] = '\0';
-	return (ptr);
+	dest[i] = 0;
+	return (dest);
 }
+
+/*
+int	main(void)
+{
+	char str[] = "Hello, World!";
+	char *substr1;
+
+	substr1 = ft_substr(str, 7, 5);
+
+	printf("ft_substr: %s\n", substr1);
+
+	free(substr1);
+	return (0);
+}*/

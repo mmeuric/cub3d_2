@@ -3,98 +3,101 @@
 /*                                                        :::      ::::::::   */
 /*   tools_calcul_wall.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmeuric <mmeuric@student.42.fr>            +#+  +:+       +#+        */
+/*   By: urlooved && mat <urlooved_&&_mat@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/13 01:42:42 by mmeuric           #+#    #+#             */
-/*   Updated: 2025/05/13 03:22:45 by mmeuric          ###   ########.fr       */
+/*   Created: 2025/05/20 13:18:01 by urlooved &&       #+#    #+#             */
+/*   Updated: 2025/05/20 13:18:03 by urlooved &&      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-// Calculates the perpendicular distance from the player to the wall and exact wall hit position.
-void	calcul_dist_wall(t_engine *eng)
+// Calculates the perpendicular distance from the player to the wall
+// and exact wall hit position.
+void	measure_wall_distance(t_game *game)
 {
-	if (eng->cal->side == 0)
+	if (game->cal->side == 0)
 	{
-		eng->cal->perp_wall_dist = (eng->cal->map_x
-				- eng->map_data->player.pos_x + (1 - eng->cal->step_x) / 2)
-			/ eng->cal->ray_dir_x;
+		game->cal->wall_distance = (game->cal->tile_x
+				- game->map_data->player.coor_x + (1 - game->cal->step_x) / 2)
+			/ game->cal->ray_dir_x;
 	}
 	else
 	{
-		eng->cal->perp_wall_dist = (eng->cal->map_y
-				- eng->map_data->player.pos_y + (1 - eng->cal->step_y) / 2)
-			/ eng->cal->ray_dir_y;
+		game->cal->wall_distance = (game->cal->tile_y
+				- game->map_data->player.coor_y + (1 - game->cal->step_y) / 2)
+			/ game->cal->ray_dir_y;
 	}
-	if (eng->cal->side == 0)
+	if (game->cal->side == 0)
 	{
-		eng->cal->wall_x = eng->map_data->player.pos_y
-			+ eng->cal->perp_wall_dist * eng->cal->ray_dir_y;
+		game->cal->wall_strike_pos = game->map_data->player.coor_y
+			+ game->cal->wall_distance * game->cal->ray_dir_y;
 	}
 	else
 	{
-		eng->cal->wall_x = eng->map_data->player.pos_x
-			+ eng->cal->perp_wall_dist * eng->cal->ray_dir_x;
+		game->cal->wall_strike_pos = game->map_data->player.coor_x
+			+ game->cal->wall_distance * game->cal->ray_dir_x;
 	}
-	eng->cal->wall_x -= floor(eng->cal->wall_x);
+	game->cal->wall_strike_pos -= floor(game->cal->wall_strike_pos);
 }
 
-// Performs DDA algorithm to detect a wall hit and sets raycasting side; calls distance calculation.
-void	wall_detect(t_engine *eng)
+// Performs DDA algorithm to detect a wall hit and sets raycasting
+// side; calls distance calculation.
+void	wall_detect(t_game *game)
 {
-	while (eng->cal->hit == 0)
+	while (game->cal->wall_strike == 0)
 	{
-		if (eng->cal->side_dist_x < eng->cal->side_dist_y)
+		if (game->cal->side_dist_x < game->cal->side_dist_y)
 		{
-			eng->cal->side_dist_x += eng->cal->delta_dist_x;
-			eng->cal->map_x += eng->cal->step_x;
-			eng->cal->side = 0;
+			game->cal->side_dist_x += game->cal->delta_dist_x;
+			game->cal->tile_x += game->cal->step_x;
+			game->cal->side = 0;
 		}
 		else
 		{
-			eng->cal->side_dist_y += eng->cal->delta_dist_y;
-			eng->cal->map_y += eng->cal->step_y;
-			eng->cal->side = 1;
+			game->cal->side_dist_y += game->cal->delta_dist_y;
+			game->cal->tile_y += game->cal->step_y;
+			game->cal->side = 1;
 		}
-		if (eng->map_data->map[eng->cal->map_y][eng->cal->map_x] > 48)
-			eng->cal->hit = 1;
+		if (game->map_data->map[game->cal->tile_y][game->cal->tile_x] > 48)
+			game->cal->wall_strike = 1;
 	}
-	calcul_dist_wall(eng);
+	measure_wall_distance(game);
 }
 
 // Chooses the correct wall texture color for east/west facing walls.
-void	calcul_wall_color_east_west(t_engine *eng, int *color)
+void	calcul_wall_color_ew(t_game *game, int *color)
 {
-	if (eng->cal->side == 1)
+	if (game->cal->side == 1)
 	{
-		if (eng->cal->map_y + (1 - eng->cal->step_y)
-			/ 2 > eng->map_data->player.pos_y)
+		if (game->cal->tile_y + (1 - game->cal->step_y)
+			/ 2 > game->map_data->player.coor_y)
 		{
-			*color = eng->mlx_data->texture[0]
-			[TEX_HEIGHT * eng->cal->tex_y + eng->cal->tex_x];
+			*color = game->mlx_data->texture[0]
+			[TEXTURE_H * game->cal->texture_y + game->cal->texture_x];
 		}
 		else
 		{
-			*color = eng->mlx_data->texture[1]
-			[TEX_HEIGHT * eng->cal->tex_y + eng->cal->tex_x];
-		}	
+			*color = game->mlx_data->texture[1]
+			[TEXTURE_H * game->cal->texture_y + game->cal->texture_x];
+		}
 	}
 }
 
-// Chooses the correct wall texture color for north/south facing walls and applies shading.
-void	calcul_wall_color_south_north(t_engine *eng, int *color)
+// Chooses the correct wall texture color for north/south
+// facing walls and applies shading.
+void	calcul_wall_color_sn(t_game *game, int *color)
 {
-	if (eng->cal->map_x + (1 - eng->cal->step_x)
-		/ 2 > eng->map_data->player.pos_x)
+	if (game->cal->tile_x + (1 - game->cal->step_x)
+		/ 2 > game->map_data->player.coor_x)
 	{
-		*color = eng->mlx_data->texture[3]
-		[TEX_HEIGHT * eng->cal->tex_y + eng->cal->tex_x];
+		*color = game->mlx_data->texture[3]
+		[TEXTURE_H * game->cal->texture_y + game->cal->texture_x];
 	}
 	else
 	{
-		*color = eng->mlx_data->texture[2]
-		[TEX_HEIGHT * eng->cal->tex_y + eng->cal->tex_x];
+		*color = game->mlx_data->texture[2]
+		[TEXTURE_H * game->cal->texture_y + game->cal->texture_x];
 	}
 	*color = (*color >> 1) & 8355711;
 }
